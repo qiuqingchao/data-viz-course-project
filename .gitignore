@@ -1,0 +1,33 @@
+# ---------- 敏感配置：绝不能提交 ----------
+backend/.env
+# 任何 .env 的备份/临时副本（曾踩过 .env.bak 含真密码的坑）
+backend/.env.bak
+backend/.env.*.bak
+backend/*.env.bak
+# 但配置模板必须保留给别人看
+!backend/.env.example
+# 本地私有备忘（个人开发日记，含本机环境等，不公开）
+LOCAL-NOTES.md
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+backend/.venv/
+backend/data/*.db
+backend/data/*.sqlite*
+
+# ---------- 前端 ----------
+frontend/node_modules/
+frontend/dist/
+frontend/.npm-cache/
+frontend/.chart-preview/
+frontend/.playwright-browsers/
+frontend/screenshots/
+
+# ---------- 编辑器/系统 ----------
+.DS_Store
+.vscode/
+.idea/
+*.log
+screenshots/
+.pip-cache/

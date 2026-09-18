@@ -1,0 +1,367 @@
+/* ============================================================================
+   墨衡 · 基础层：重置、排版、通用构件
+   只使用 tokens.css 里的变量，不出现写死的颜色和尺寸。
+   ==========================================================================*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-14);
+  line-height: 1.6;
+  color: var(--text-1);
+  background-color: var(--ink-1000);
+  /* 极淡的工程网格：呼应"精密仪器"，同时不干扰阅读 */
+  background-image: linear-gradient(var(--line-1) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-1) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- 数字：等宽 + 定宽数字，保证纵向对齐（实用性关键）---------- */
+.num,
+.mono {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- 滚动条：细、低存在感 ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink-600);
+  border: 2px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--line-3);
+  background-clip: content-box;
+}
+
+/* ---------- 选中 / 聚焦：统一使用品牌色 ---------- */
+::selection {
+  background: var(--brand-line);
+  color: var(--text-1);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-500);
+  outline-offset: 2px;
+}
+
+/* ---------- 排版基元 ---------- */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--brand-text);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   品牌特征元素：黄铜"刻度尺"
+   这是整套视觉的识别符号，出现在标题旁、卡片角落、分隔线上。
+   ==========================================================================*/
+
+.tick-rule {
+  height: 10px;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--brass-500) 0,
+    var(--brass-500) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+  opacity: 0.5;
+}
+
+.tick-rule--tall {
+  height: 16px;
+  background-image: repeating-linear-gradient(
+      to right,
+      var(--brass-500) 0,
+      var(--brass-500) 1px,
+      transparent 1px,
+      transparent 24px
+    ),
+    repeating-linear-gradient(
+      to right,
+      var(--brand-500) 0,
+      var(--brand-500) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  background-size: 100% 16px, 100% 8px;
+  background-position: 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat;
+  opacity: 0.6;
+}
+
+/* 标题前缀：一条黄铜短横，全局统一的"章节标记" */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.section-title::before {
+  content: "";
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--brass-500);
+}
+
+/* ---------- 小徽标 ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  padding: 2px 8px;
+  border-radius: var(--r-1);
+  border: 1px solid var(--line-2);
+  background: var(--ink-750);
+  font-size: var(--fs-11);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.badge--brand {
+  border-color: var(--brand-line);
+  background: var(--brand-soft);
+  color: var(--brand-text);
+}
+
+.badge--brass {
+  border-color: var(--brass-line);
+  background: var(--brass-soft);
+  color: var(--brass-text);
+}
+
+/* ---------- 诚实提示条：用于标注"功能尚未接入" ---------- */
+.notice {
+  display: flex;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--r-2);
+  border: 1px solid var(--brass-line);
+  background: var(--brass-soft);
+  color: var(--text-2);
+  font-size: var(--fs-13);
+  line-height: 1.7;
+}
+
+.notice__key {
+  flex: none;
+  color: var(--brass-text);
+  font-weight: 600;
+}
+
+/* ---------- 轻量按钮：用于次要操作，全站统一样式 ---------- */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--r-2);
+  border: 1px solid var(--line-2);
+  background: var(--ink-800);
+  color: var(--text-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-12);
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease),
+    border-color var(--dur-1) var(--ease), color var(--dur-1) var(--ease);
+}
+
+.btn-ghost:hover {
+  background: var(--ink-700);
+  border-color: var(--line-3);
+  color: var(--text-1);
+}
+
+.btn-ghost--brass {
+  border-color: var(--brass-line);
+  color: var(--brass-text);
+}
+
+.btn-ghost--brass:hover {
+  background: var(--brass-soft);
+  border-color: var(--brass-500);
+  color: var(--brass-text);
+}
+
+/* ---------- 主按钮：全站统一 ----------
+   教训记录：这个类此前被 4 个组件引用，但全局样式里【从未定义过】，
+   于是主按钮全部退化成浏览器原生按钮 —— 深色模式恰好被 color-scheme:dark
+   渲染成黑底白字"看起来能用"，浅色模式就是灰底黑字的半成品。
+   组件里绝对不要再自带一套按钮底色，一律用这里的语义令牌。 */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--r-2);
+  border: 1px solid transparent;
+  background: var(--brand-fill);
+  color: var(--on-brand);
+  font-family: var(--font-sans);
+  font-size: var(--fs-13);
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: background-color var(--dur-1) var(--ease),
+    opacity var(--dur-1) var(--ease);
+}
+
+.btn-primary:hover {
+  background: var(--brand-fill-hover);
+}
+
+.btn-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary--brass {
+  background: var(--brass-fill);
+}
+
+.btn-primary--brass:hover {
+  background: var(--brass-fill-hover);
+}
+
+/* 小号变体：和 .btn-primary / .btn-ghost 组合使用 */
+.btn-sm {
+  padding: 4px 10px;
+  font-size: var(--fs-12);
+}
+
+/* ---------- 顶栏：大屏与工作台共用，保证两页头部完全一致 ---------- */
+.appbar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  height: var(--topbar-h);
+  padding: 0 var(--sp-5);
+  background: var(--bar-bg);
+  border-bottom: 1px solid var(--line-1);
+  box-shadow: var(--shadow-panel);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+}
+
+.appbar__spacer {
+  flex: 1;
+}
+
+.appbar__title {
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: var(--text-1);
+  white-space: nowrap;
+}
+
+.appbar__sep {
+  width: 1px;
+  height: 20px;
+  background: var(--line-2);
+  flex: none;
+}
+
+/* ---------- 可访问性：尊重"减少动效"的系统设置 ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+
+/* ============================================================================
+   切换皮肤时的平滑过渡
+   只在"用户主动切换"的 300ms 内临时打开，避免平时所有交互都变慢。
+   同时放在 prefers-reduced-motion: no-preference 里，尊重"减少动效"设置。
+   ==========================================================================*/
+@media (prefers-reduced-motion: no-preference) {
+  html.theme-anim,
+  html.theme-anim *,
+  html.theme-anim *::before,
+  html.theme-anim *::after {
+    transition: background-color 260ms var(--ease), color 260ms var(--ease),
+      border-color 260ms var(--ease), box-shadow 260ms var(--ease) !important;
+  }
+}
+
+/* ============================================================================
+   入场动画：面板与卡片自下而上"浮起"
+   刻意做得克制（位移仅 10px、420ms），只是让页面"活"起来，
+   不喧宾夺主。用 --i 做错峰，形成从左到右依次出现的节奏。
+   ==========================================================================*/
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise-in var(--dur-3) var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* 若无动画偏好被关闭，则不做渐入（避免出现"看不见的元素"） */
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

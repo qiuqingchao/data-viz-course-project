@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>墨衡 · 数据可视化平台</title>
+
+    <!--
+      主题"防闪白"脚本：必须在任何样式之前执行。
+      规则：用户手动选过 → 听用户的；没选过 → 听操作系统的。
+      这段代码故意写成不依赖任何框架的纯 JS，因为它要比页面先跑起来。
+    -->
+    <script>
+      ;(function () {
+        var MODE_KEY = 'moheng-theme'
+        var saved = 'auto'
+        try {
+          saved = window.localStorage.getItem(MODE_KEY) || 'auto'
+        } catch (e) {
+          saved = 'auto'
+        }
+        var systemDark = false
+        try {
+          systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        } catch (e) {
+          systemDark = false
+        }
+        var dark = saved === 'dark' || (saved === 'auto' && systemDark)
+        var root = document.documentElement
+        root.classList.toggle('dark', dark)
+        root.dataset.themeMode = saved
+        root.style.colorScheme = dark ? 'dark' : 'light'
+      })()
+    </script>
+
+    <!-- 提前铺底色，避免打开瞬间闪一下白屏（浅色/深色各一套） -->
+    <style>
+      html {
+        margin: 0;
+        background-color: #f6f4ef;
+      }
+      html.dark {
+        background-color: #070b12;
+      }
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
